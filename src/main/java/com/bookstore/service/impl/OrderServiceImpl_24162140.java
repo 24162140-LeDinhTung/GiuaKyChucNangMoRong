@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Triển khai OrderService
@@ -21,8 +22,8 @@ import java.util.List;
 public class OrderServiceImpl_24162140 implements OrderService_24162140 {
 
     private final OrderDAO_24162140 orderDAO = new OrderDAOImpl_24162140();
-    private final CartDAO_24162140 cartDAO = new CartDAOImpl_24162140();
-    private final BookDAO_24162140 bookDAO = new BookDAOImpl_24162140();
+    private final CartDAO_24162140  cartDAO  = new CartDAOImpl_24162140();
+    private final BookDAO_24162140  bookDAO  = new BookDAOImpl_24162140();
 
     @Override
     public Order_24162140 placeOrderCOD(Integer userId,
@@ -31,16 +32,11 @@ public class OrderServiceImpl_24162140 implements OrderService_24162140 {
                                           String note) {
 
         Cart_24162140 cart = cartDAO.findByUserId(userId);
-        if (cart == null) {
-            throw new IllegalStateException("Giỏ hàng trống");
-        }
+        if (cart == null) throw new IllegalStateException("Giỏ hàng trống");
 
         List<CartItem_24162140> cartItems = cartDAO.findItems(cart.getCartId());
-        if (cartItems.isEmpty()) {
-            throw new IllegalStateException("Giỏ hàng trống");
-        }
+        if (cartItems.isEmpty()) throw new IllegalStateException("Giỏ hàng trống");
 
-        // Tạo order
         Order_24162140 order = new Order_24162140();
         order.setUserId(userId);
         order.setOrderDate(LocalDateTime.now());
@@ -50,7 +46,6 @@ public class OrderServiceImpl_24162140 implements OrderService_24162140 {
         order.setPhone(phone);
         order.setNote(note);
 
-        // Tạo order items + tính tổng tiền
         List<OrderItem_24162140> orderItems = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
 
@@ -70,12 +65,8 @@ public class OrderServiceImpl_24162140 implements OrderService_24162140 {
 
         order.setTotalAmount(total);
 
-        // Lưu order + items
         Order_24162140 saved = orderDAO.createOrder(order, orderItems);
-
-        // Xóa giỏ hàng
         cartDAO.clearCart(cart.getCartId());
-
         return saved;
     }
 
@@ -93,5 +84,21 @@ public class OrderServiceImpl_24162140 implements OrderService_24162140 {
     @Override
     public List<Order_24162140> getOrdersByUser(Integer userId) {
         return orderDAO.findByUserId(userId);
+    }
+
+    @Override
+    public List<Order_24162140> getOrdersByUserAndStatus(
+            Integer userId, OrderStatus_24162140 status) {
+        return orderDAO.findByUserIdAndStatus(userId, status);
+    }
+
+    @Override
+    public Map<OrderStatus_24162140, Long> countByStatus(Integer userId) {
+        return orderDAO.countByStatusForUser(userId);
+    }
+
+    @Override
+    public long countByUser(Integer userId) {
+        return orderDAO.countByUser(userId);
     }
 }

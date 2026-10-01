@@ -24,14 +24,18 @@
             <tr><td class="lbl">Trạng thái:</td>
                 <td>
                     <span class="order-status status-${order.status}">
-                        <c:choose>
-                            <c:when test="${order.status == 'PENDING'}">⏳ Chờ xác nhận</c:when>
-                            <c:when test="${order.status == 'CONFIRMED'}">✅ Đã xác nhận</c:when>
-                            <c:when test="${order.status == 'SHIPPING'}">🚚 Đang giao</c:when>
-                            <c:when test="${order.status == 'DELIVERED'}">📦 Đã giao</c:when>
-                            <c:when test="${order.status == 'CANCELLED'}">❌ Đã hủy</c:when>
-                        </c:choose>
-                    </span>
+					    <c:choose>
+					        <c:when test="${order.status == 'PENDING'}">⏳ Đơn hàng mới</c:when>
+					        <c:when test="${order.status == 'CONFIRMED'}">✅ Đã xác nhận</c:when>
+					        <c:when test="${order.status == 'PREPARING'}">📦 Chuẩn bị hàng</c:when>
+					        <c:when test="${order.status == 'SHIPPING'}">🚚 Vận chuyển</c:when>
+					        <c:when test="${order.status == 'DELIVERING'}">🛵 Đang giao hàng</c:when>
+					        <c:when test="${order.status == 'DELIVERED'}">🎉 Đã giao</c:when>
+					        <c:when test="${order.status == 'CANCELLED'}">❌ Đơn hàng hủy</c:when>
+					        <c:when test="${order.status == 'RETURNED'}">↩️ Đơn hàng hoàn</c:when>
+					        <c:otherwise>${order.status}</c:otherwise>
+					    </c:choose>
+					</span>
                 </td>
             </tr>
             <tr><td class="lbl">Thanh toán:</td><td>💰 COD (Thanh toán khi nhận hàng)</td></tr>
