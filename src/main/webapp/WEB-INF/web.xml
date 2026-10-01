@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>BookStore - Lê Đình Tùng - 24162140 - Đề 01</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.bookstore.filter.EncodingFilter_24162140</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+		<!-- ===== LOGIN FILTER (chặn /home, /books, /book-detail) ===== -->
+	<filter>
+	    <filter-name>LoginFilter</filter-name>
+	    <filter-class>com.bookstore.filter.LoginFilter_24162140</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>LoginFilter</filter-name>
+	    <url-pattern>/home</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+	    <filter-name>LoginFilter</filter-name>
+	    <url-pattern>/books</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+	    <filter-name>LoginFilter</filter-name>
+	    <url-pattern>/book-detail</url-pattern>
+	</filter-mapping>
+	
+	<!-- ===== ADMIN FILTER (chặn /admin/*) ===== -->
+	<filter>
+	    <filter-name>AdminFilter</filter-name>
+	    <filter-class>com.bookstore.filter.AdminFilter_24162140</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>AdminFilter</filter-name>
+	    <url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/cart</url-pattern>
+</filter-mapping>
+<filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/cart/*</url-pattern>
+</filter-mapping>
+<filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/checkout</url-pattern>
+</filter-mapping>
+<filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/my-orders</url-pattern>
+</filter-mapping>
+<filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/order-detail</url-pattern>
+</filter-mapping>
+
+</web-app>
